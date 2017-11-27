@@ -23,7 +23,7 @@ from .utils import (
 )
 from .models import PreparedRuna
 
-logger = logging.getLogger('suds')
+logger = logging.getLogger('runa')
 
 
 def login(WSDL):
@@ -46,14 +46,11 @@ def login(WSDL):
 
 
 def _has_error(response):
-    if response.Error:
+    if not response.CodigoError == '000':
         return '{0} {1}'.format(response.CodigoError, response.Error)
 
 
-def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
-    response, client = login(WS_CIUDADANO)
-    if not response:
-        return False
+def create_tokens(response):
     security = Security()
     token = UsernameToken(AUTHORIZED_NUI)
     token.setcreated(response.Fecha)
@@ -66,6 +63,14 @@ def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
     token_ts.created = response.Fecha
     token_ts.expires = response.FechaF
     security.tokens.append(token_ts)
+    return security
+
+
+def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
+    response, client = login(WS_CIUDADANO)
+    if not response:
+        return False
+    security = create_tokens(response)
     client.set_options(wsse=security)
 
     consulta_response = client.service.BusquedaPorNui(
@@ -84,4 +89,4 @@ def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
 
 
 def busqueda_por_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
-    read_by_nui(nui, mode=mode, authorized_nui=authorized_nui)
+    return read_by_nui(nui, mode=mode, authorized_nui=authorized_nui)
