@@ -6,3 +6,4 @@ History
 ------------------
 
 * First release on PyPI.
+* Implementación base para el servicio de Consultar_Ciudadano

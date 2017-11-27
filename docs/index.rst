@@ -1,5 +1,5 @@
-Welcome to Librería para WS del Estado's documentation!
-======================================
+Bienvenido a la documentación de RUNA
+=====================================
 
 Contents:
 

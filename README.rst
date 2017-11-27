@@ -1,6 +1,6 @@
-===========================
-Librería para WS del Estado
-===========================
+==================================================
+Librería para Uso de los WS del Estado Ecuatoriano
+==================================================
 
 
 .. image:: https://img.shields.io/pypi/v/runa.svg
@@ -18,17 +18,18 @@ Librería para WS del Estado
      :alt: Updates
 
 
-Librería para consumir WS del bus gubernamental de Ecuador
+Librería para uso WS del Bus Gubernamental de Ecuador
 
 
 * Free software: MIT license
-* Documentation: https://runa.readthedocs.io.
+* Documentation: https://runa.readthedocs.io
 
 
 Features
 --------
 
-* TODO
+* Uso del WS Consultar_Ciudadano
+* Validación de NUI (usa librería stdum)
 
 Credits
 ---------
@@ -37,4 +38,3 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-
