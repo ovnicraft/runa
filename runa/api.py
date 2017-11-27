@@ -9,11 +9,18 @@ RUNA API
 import logging
 from urllib.error import URLError
 
-# from suds.client import Client
-from zeep import Client
+from suds.client import Client
 from suds.wsse import Security, UsernameToken, Timestamp
 
-from .utils import WS_CIUDADANO, WS_ACCESS, AUTHORIZED_NUI
+from .utils import (
+    WS_CIUDADANO,
+    WS_ACCESS,
+    AUTHORIZED_NUI,
+    USER,
+    PASSWORD,
+    CODAGENCIA,
+    CODINSTITUCION
+)
 from .models import PreparedRuna
 
 logger = logging.getLogger('suds')
@@ -24,50 +31,57 @@ def login(WSDL):
         client = Client(WSDL)
     except URLError:
         logger.error("Error en WS")
-        return False, False
+        return False
 
     cl_auth = Client(WS_ACCESS)
-    logger.info("***********\n Leyendo types en servicios...")
-    req_auth = cl_auth.factory.create("validarPermisoPeticion")
-    logger.info("***********\n Autentificacion...")
-    req_auth.Cedula = AUTHORIZED_NUI
-    req_auth.Urlsw = WS_CIUDADANO
-    logger.info("***********\nResultado de auth...")
-
-    response = cl_auth.service.ValidarPermiso(req_auth)
+    factory = cl_auth.factory.create("validarPermisoPeticion")
+    factory.Cedula = AUTHORIZED_NUI
+    factory.Urlsw = WSDL
+    response = cl_auth.service.ValidarPermiso(factory)
 
     if response.TienePermiso == 'N':
-        logger.error("No tiene permisos, respuesta de WS: %s" % response.TienePermiso)
+        logger.error("No tiene permisos, respuesta de WS: %s" % response.TienePermiso)  # noqa
         return False
     return response, client
 
 
-def read_by_nui(nui, mode='prod', authorized_nui=None):
+def _has_error(response):
+    if response.Error:
+        return '{0} {1}'.format(response.CodigoError, response.Error)
+
+
+def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
     response, client = login(WS_CIUDADANO)
     if not response:
         return False
-    logger.info("Digest: %s" % response.Digest)
-    logger.info("Fecha: %s" % response.Fecha)
-    logger.info("FechaF: %s " % response.FechaF)
-    logger.info("Nonce: %s " % response.Nonce)
-    logger.info("TienePermiso: %s " % response.TienePermiso)
     security = Security()
-    token = UsernameToken(authorized_nui)
+    token = UsernameToken(AUTHORIZED_NUI)
     token.setcreated(response.Fecha)
     token.nonce_has_encoding = True
     token.setnonce(response.Nonce)
     token.setpassworddigest(response.Digest)
     security.tokens.append(token)
+
     token_ts = Timestamp()
     token_ts.created = response.Fecha
     token_ts.expires = response.FechaF
     security.tokens.append(token_ts)
     client.set_options(wsse=security)
-    consulta_response = False
-    try:
-        consulta_response = client.service.BusquedadPorNui(NUI=nui, Usuario="testroot", Contrasenia="Sti1DigS21")
-    except WebFault:
-        logger.info("error en la consulta")
+
+    consulta_response = client.service.BusquedaPorNui(
+        NUI=nui,
+        Usuario=USER,
+        Contrasenia=PASSWORD,
+        CodigoInstitucion=CODINSTITUCION,
+        CodigoAgencia=CODAGENCIA
+    )
+    error = _has_error(consulta_response)
+    if error:
+        raise Exception(error)
     runa = PreparedRuna()
     runa.prepare(consulta_response)
     return runa
+
+
+def busqueda_por_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
+    read_by_nui(nui, mode=mode, authorized_nui=authorized_nui)
