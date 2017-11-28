@@ -25,6 +25,25 @@ Librería para uso WS del Bus Gubernamental de Ecuador
 * Documentation: https://runa.readthedocs.io
 
 
+Installing
+----------
+
+.. code-block:: bash
+
+    $ pip install runa
+
+
+Using
+-----
+
+.. code-block:: python
+
+    >>> import runa
+    >>> pr = runa.busqueda_por_nui('0102030405')
+    >>> print(pr)
+    <Runa [0102030405 - PUJON JUAN MANUEL]>
+
+
 Features
 --------
 

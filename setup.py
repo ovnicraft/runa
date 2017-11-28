@@ -13,6 +13,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
+    'git+https://github.com/ovnicraft/suds.git'
     # TODO: put package requirements here
 ]
 
@@ -27,7 +28,7 @@ test_requirements = [
 setup(
     name='runa',
     version='0.1.0',
-    description="Librería para consumir WS del bus gubernamental de Ecuador",
+    description="Librería para uso de WS del Bus Gubernamental de Ecuador",
     long_description=readme + '\n\n' + history,
     author="Cristian Salamea",
     author_email='cristian.salamea@gmail.com',
