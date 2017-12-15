@@ -29,4 +29,8 @@ del bus gubernamental de Ecuador de una manera *Pythonica*
 
 """
 
-from .api import read_by_nui, busqueda_por_nui  # noqa
+from .api import (  # noqa
+    read_by_nui,
+    busqueda_por_nui,
+    busqueda_ruc
+)

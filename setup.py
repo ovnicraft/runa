@@ -13,7 +13,6 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    'git+https://github.com/ovnicraft/suds.git'
     # TODO: put package requirements here
 ]
 

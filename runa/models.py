@@ -12,6 +12,60 @@ import json
 logger = logging.getLogger('runa')
 
 
+class PreparedContribuyente(object):
+    def __init__(self):
+        self.numeroRuc = None
+        self.RUC = None
+        self.razonSocial = None
+        self.actividadEconomica = None
+        self.codClaseContrib = None
+        self.codEstado = None
+        self.desClaseContrib = None
+        self.desEstado = None
+        self.direccionCorta = None
+        self.email = None
+        self.nombreComercial = None
+        self.telefonoDomicilio = None
+        self.telefonoTrabajo = None
+        self.tipoContribuyente = None
+        self.ubicacionGeografica = None
+        self.ValidRUC = False
+
+    def __repr__(self):
+        return '<Runa [%s - %s]>' % (self.RUC, self.razonSocial)
+
+    def json(self):
+        return json.dumps(self.__dict__, indent=4)
+
+    def is_valid(self):
+        """ Validate RUC """
+        try:
+            import stdnum
+        except ImportError:
+            logger.warning("Warning: stdnum library not installed, can't validate.")  # noqa
+            return False
+        self.ValidRUC = stdnum.ec.ruc.is_valid(self.RUC)
+        return self.RUC
+
+    def prepare(self, response):
+        self.actividadEconomica = response.actividadEconomica
+        self.codClaseContrib = response.codClaseContrib
+        self.codEstado = response.codEstado
+        self.desClaseContrib = response.desClaseContrib
+        self.desEstado = response.desEstado
+        self.direccionCorta = response.direccionCorta
+        self.email = response.email
+        self.nombreComercial = response.nombreComercial
+        self.numeroRuc = response.numeroRuc
+        self.RUC = response.numeroRuc
+        self.razonSocial = response.razonSocial
+        self.telefonoDomicilio = response.telefonoDomicilio
+        self.telefonoTrabajo = response.telefonoTrabajo
+        self.tipoContribuyente = response.tipoContribuyente
+        self.ubicacionGeografica = response.ubicacionGeografica
+        self.ValidRUC = True
+
+
 class PreparedRuna(object):
 
     def __init__(self):
@@ -46,14 +100,15 @@ class PreparedRuna(object):
     def json(self):
         return json.dumps(self.__dict__, indent=4)
 
-    def nui_is_valid(self):
+    def is_valid(self):
         """ Validate NUI """
         try:
             import stdnum
         except ImportError:
             logger.warning("Warning: stdnum library not installed, can't validate.")  # noqa
             return False
-        return stdnum.ec.ci.is_valid(self.NUI)
+        self.ValidNUI = stdnum.ec.ci.is_valid(self.NUI)
+        return self.ValidNUI
 
     def prepare(self, response):
         """ Prepare given response data in object"""

@@ -14,6 +14,7 @@ from suds.wsse import Security, UsernameToken, Timestamp
 
 from .utils import (
     WS_CIUDADANO,
+    WS_SRI,
     WS_ACCESS,
     AUTHORIZED_NUI,
     USER,
@@ -41,7 +42,7 @@ def login(WSDL):
 
     if response.TienePermiso == 'N':
         logger.error("No tiene permisos, respuesta de WS: %s" % response.TienePermiso)  # noqa
-        return False
+        return False, False
     return response, client
 
 
@@ -90,3 +91,14 @@ def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
 
 def busqueda_por_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
     return read_by_nui(nui, mode=mode, authorized_nui=authorized_nui)
+
+
+def busqueda_ruc(ruc, AUTHORIZED_NUI=AUTHORIZED_NUI):
+    response, client = login(WS_SRI)
+    if not response:
+        return False
+    security = create_tokens(response)
+    client.set_options(security)
+
+    consulta_response = client.service.obtenerDatos(numeroRuc=ruc)
+    print(consulta_response)
