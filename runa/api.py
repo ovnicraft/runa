@@ -41,7 +41,7 @@ def login(WSDL):
     response = cl_auth.service.ValidarPermiso(factory)
 
     if response.TienePermiso == 'N':
-        logger.error("No tiene permisos, respuesta de WS: %s" % response.TienePermiso)  # noqa
+        logger.error('%s %s' % (response.Mensaje.CodError, response.Mensaje.DesError))  # noqa
         return False, False
     return response, client
 
