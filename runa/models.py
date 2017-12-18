@@ -31,6 +31,9 @@ class PreparedContribuyente(object):
         self.ubicacionGeografica = None
         self.ValidRUC = False
 
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
     def __repr__(self):
         return '<Contribuyente [%s - %s]>' % (self.RUC, self.razonSocial)
 
@@ -92,6 +95,9 @@ class PreparedRuna(object):
         self.Genero = None
         self.FechaInscripcionGenero = None
         self.ValidNUI = True
+
+    def __getitem__(self, key):
+        return self.__dict__[key]
 
     def __repr__(self):
         return '<Runa [%s - %s]>' % (self.NUI, self.Nombre)
