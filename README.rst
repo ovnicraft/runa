@@ -43,12 +43,19 @@ Using
     >>> print(pr)
     <Runa [0102030405 - PUJON JUAN MANUEL]>
 
+    >>> pr.json()
+    ...
+    >>> contribuyente = runa.busqueda_ruc('0102030405001')
+    >>> print(contribuyente)
+    <Contribuyente [0102030405001 - MI COMPANIA CIA.LTDA.]>
 
 Features
 --------
 
 * Uso del WS Consultar_Ciudadano
 * Validación de NUI (usa librería stdum)
+* Uso del WS SRI
+
 
 Credits
 ---------

@@ -32,7 +32,7 @@ class PreparedContribuyente(object):
         self.ValidRUC = False
 
     def __repr__(self):
-        return '<Runa [%s - %s]>' % (self.RUC, self.razonSocial)
+        return '<Contribuyente [%s - %s]>' % (self.RUC, self.razonSocial)
 
     def json(self):
         return json.dumps(self.__dict__, indent=4)
