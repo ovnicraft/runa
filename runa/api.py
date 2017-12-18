@@ -22,7 +22,7 @@ from .utils import (
     CODAGENCIA,
     CODINSTITUCION
 )
-from .models import PreparedRuna
+from .models import PreparedRuna, PreparedContribuyente
 
 logger = logging.getLogger('runa')
 
@@ -98,7 +98,10 @@ def busqueda_ruc(ruc, AUTHORIZED_NUI=AUTHORIZED_NUI):
     if not response:
         return False
     security = create_tokens(response)
-    client.set_options(security)
-
+    client.set_options(wsse=security)
     consulta_response = client.service.obtenerDatos(numeroRuc=ruc)
-    print(consulta_response)
+    if not consulta_response:
+        return False
+    contribuyente = PreparedContribuyente()
+    contribuyente.prepare(consulta_response)
+    return contribuyente

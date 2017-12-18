@@ -48,7 +48,7 @@ class PreparedContribuyente(object):
         return self.RUC
 
     def prepare(self, response):
-        self.actividadEconomica = response.actividadEconomica
+        self.actividadEconomica = response.actEcoPrin
         self.codClaseContrib = response.codClaseContrib
         self.codEstado = response.codEstado
         self.desClaseContrib = response.desClaseContrib
@@ -59,10 +59,9 @@ class PreparedContribuyente(object):
         self.numeroRuc = response.numeroRuc
         self.RUC = response.numeroRuc
         self.razonSocial = response.razonSocial
-        self.telefonoDomicilio = response.telefonoDomicilio
-        self.telefonoTrabajo = response.telefonoTrabajo
-        self.tipoContribuyente = response.tipoContribuyente
-        self.ubicacionGeografica = response.ubicacionGeografica
+        self.telefonos = response.telefonos
+        self.tipoContribuyente = response.tipoContri
+        self.ubicacionGeografica = response.ubicaGeograf
         self.ValidRUC = True
 
 
