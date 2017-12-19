@@ -13,7 +13,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    # TODO: put package requirements here
+    'suds-ovnicraft==0.7.1'
 ]
 
 setup_requirements = [
@@ -26,7 +26,7 @@ test_requirements = [
 
 setup(
     name='runa',
-    version='0.1.0',
+    version='0.2.0',
     description="Librería para uso de WS del Bus Gubernamental de Ecuador",
     long_description=readme + '\n\n' + history,
     author="Cristian Salamea",
