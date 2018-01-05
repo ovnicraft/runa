@@ -93,13 +93,13 @@ def busqueda_por_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
     return read_by_nui(nui, mode=mode, authorized_nui=authorized_nui)
 
 
-def busqueda_ruc(ruc, AUTHORIZED_NUI=AUTHORIZED_NUI):
-    response, client = login(WS_SRI)
+def busqueda_ruc(ruc, AUTHORIZED_NUI=AUTHORIZED_NUI, bulk=False):
+    response, cliente = login(WS_SRI)
     if not response:
         return False
     security = create_tokens(response)
-    client.set_options(wsse=security)
-    consulta_response = client.service.obtenerDatos(numeroRuc=ruc)
+    cliente.set_options(wsse=security)
+    consulta_response = cliente.service.obtenerDatos(numeroRuc=ruc)
     if not consulta_response:
         return False
     contribuyente = PreparedContribuyente()
