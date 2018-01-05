@@ -36,6 +36,8 @@ Installing
 Using
 -----
 
+This library will create a configuration file .runa.json in your HOMEPATH, update this to use it.
+
 .. code-block:: python
 
     >>> import runa
@@ -52,15 +54,11 @@ Using
 Features
 --------
 
-* Uso del WS Consultar_Ciudadano
-* Validación de NUI (usa librería stdum)
-* Uso del WS SRI
-
+* WS Consultar_Ciudadano
+* WS SRI
+* Config file needed
 
 Credits
 ---------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+Created by Cristian Salamea
