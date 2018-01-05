@@ -3,7 +3,14 @@
 
 """The setup script."""
 
+import sys
+
 from setuptools import setup, find_packages
+
+VERSION_REQUIRED = (3, 5)
+
+if sys.version_info < VERSION_REQUIRED:
+    sys.exit('Python %s.%s is required' % VERSION_REQUIRED)
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -26,7 +33,8 @@ test_requirements = [
 
 setup(
     name='runa',
-    version='0.2.3',
+    version='0.2.4',
+    python_requires='>=3.2',
     description="Librería para uso de WS del Bus Gubernamental de Ecuador",
     long_description=readme + '\n\n' + history,
     author="Cristian Salamea",
