@@ -7,7 +7,11 @@ RUNA API
 
 """
 import logging
-from urllib.error import URLError
+
+try:
+    from urllib.error import URLError
+except ImportError:
+    from urllib2 import URLError
 
 from suds.client import Client
 from suds.wsse import Security, UsernameToken, Timestamp
@@ -20,7 +24,8 @@ from .utils import (
     USER,
     PASSWORD,
     CODAGENCIA,
-    CODINSTITUCION
+    CODINSTITUCION,
+    WS_ENABLED
 )
 from .models import PreparedRuna, PreparedContribuyente
 
@@ -46,6 +51,10 @@ def login(WSDL):
     return response, client
 
 
+def login_service(service='sri'):
+    return login(WS_ENABLED[service])
+
+
 def _has_error(response):
     if not response.CodigoError == '000':
         return '{0} {1}'.format(response.CodigoError, response.Error)
@@ -65,6 +74,11 @@ def create_tokens(response):
     token_ts.expires = response.FechaF
     security.tokens.append(token_ts)
     return security
+
+
+def set_token(response, client):
+    security = create_tokens(response)
+    client.set_options(wsse=security)
 
 
 def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):

@@ -1,16 +1,37 @@
 # -*- coding: utf-8 -*-
 
+import sys
 import json
-from pathlib import Path
+
 import logging
 
 logger = logging.getLogger(__name__)
 
 CONFIG_FILE_NAME = '.runa.json'
 
-CONFIG_FILE = '{0}/{1}'.format(str(Path.home()), CONFIG_FILE_NAME)
 
-if not Path(CONFIG_FILE).is_file():
+def get_home():
+    if sys.version_info[0] > 3:
+        from pathlib import Path
+        return str(Path.home())
+    else:
+        from os.path import expanduser
+        return expanduser('~')
+
+
+def get_path(path_file):
+    if sys.version_info[0] > 2:
+        from pathlib import Path
+        return Path().is_file()
+    else:
+        import os
+        return os.path.isfile(path_file)
+
+
+HOME = get_home()
+CONFIG_FILE = '{0}/{1}'.format(HOME, CONFIG_FILE_NAME)
+
+if not get_path(CONFIG_FILE):
     mf = open(CONFIG_FILE, 'w')
     json.dumps({}, mf)
     mf.close()
@@ -37,3 +58,9 @@ MODE = VARS_ENV.get('mode', 'prod')
 
 def set_ws(mode='prod'):
     WS_CIUDADANO = mode == 'prod' and WS_CIUDADANO_PRODUCTION or WS_CIUDADANO_TESTING  # noqa
+
+
+WS_ENABLED = {
+    'rcivil': WS_CIUDADANO,
+    'sri': WS_SRI
+}

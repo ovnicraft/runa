@@ -3,14 +3,7 @@
 
 """The setup script."""
 
-import sys
-
 from setuptools import setup, find_packages
-
-VERSION_REQUIRED = (3, 5)
-
-if sys.version_info < VERSION_REQUIRED:
-    sys.exit('Python %s.%s is required' % VERSION_REQUIRED)
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -33,8 +26,7 @@ test_requirements = [
 
 setup(
     name='runa',
-    version='0.2.4',
-    python_requires='>=3.2',
+    version='0.2.5',
     description="Librería para uso de WS del Bus Gubernamental de Ecuador",
     long_description=readme + '\n\n' + history,
     author="Cristian Salamea",
@@ -50,19 +42,18 @@ setup(
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='runa',
+    keywords='runa webservices ecuador bgs',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
     test_suite='tests',
     tests_require=test_requirements,
