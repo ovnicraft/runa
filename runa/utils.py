@@ -22,7 +22,7 @@ def get_home():
 def get_path(path_file):
     if sys.version_info[0] > 2:
         from pathlib import Path
-        return Path().is_file()
+        return Path(path_file).is_file()
     else:
         import os
         return os.path.isfile(path_file)

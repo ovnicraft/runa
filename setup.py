@@ -26,7 +26,7 @@ test_requirements = [
 
 setup(
     name='runa',
-    version='0.2.5',
+    version='0.2.6',
     description="Librería para uso de WS del Bus Gubernamental de Ecuador",
     long_description=readme + '\n\n' + history,
     author="Cristian Salamea",
