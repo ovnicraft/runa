@@ -29,6 +29,8 @@ class PreparedContribuyente(object):
         self.telefonoTrabajo = None
         self.tipoContribuyente = None
         self.ubicacionGeografica = None
+        self.obligadoContabilidad = False
+        self.representanteLegal = {}
         self.ValidRUC = False
 
     def __getitem__(self, key):
@@ -51,7 +53,7 @@ class PreparedContribuyente(object):
         return self.RUC
 
     def prepare(self, response):
-        self.actividadEconomica = response.actEcoPrin
+        self.actividadEconomica = response.actividadEconomica
         self.codClaseContrib = response.codClaseContrib
         self.codEstado = response.codEstado
         self.desClaseContrib = response.desClaseContrib
@@ -62,9 +64,11 @@ class PreparedContribuyente(object):
         self.numeroRuc = response.numeroRuc
         self.RUC = response.numeroRuc
         self.razonSocial = response.razonSocial
-        self.telefonos = response.telefonos
-        self.tipoContribuyente = response.tipoContri
+        self.telefonoTrabajo = response.telefonoTrabajo
+        self.tipoContribuyente = response.tipoContribuyente
         self.ubicacionGeografica = response.ubicaGeograf
+        self.obligadoContabilidad = response.obligadoContabilidad
+        self.representanteLegal = response.representanteLegal
         self.ValidRUC = True
 
 
@@ -138,3 +142,20 @@ class PreparedRuna(object):
         self.Genero = response.Genero
         self.FechaInscripcionGenero = response.FechaInscripcionGenero
         self.ValidNUI = True
+
+
+class ActividadEconomica(object):
+    def __init__(self):
+        self.actividadGeneral = False
+        self.codN1Familia = False
+        self.codN2Grupo = False
+        self.codN3SubGrupo = False
+        self.codN4Clase = False
+        self.codN5SubClase = False
+        self.codN6Actividad = False
+        self.n1Familia = False
+        self.n2Grupo = False
+        self.n3SubGrupo = False
+        self.n4Clase = False
+        self.n5SubClase = False
+        self.n6Actividad = False

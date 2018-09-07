@@ -113,7 +113,7 @@ def busqueda_ruc(ruc, AUTHORIZED_NUI=AUTHORIZED_NUI, bulk=False):
         return False
     security = create_tokens(response)
     cliente.set_options(wsse=security)
-    consulta_response = cliente.service.obtenerDatos(numeroRuc=ruc)
+    consulta_response = cliente.service.obtenerCompleto(numeroRuc=ruc)
     if not consulta_response:
         return False
     contribuyente = PreparedContribuyente()
