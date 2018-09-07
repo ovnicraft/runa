@@ -66,7 +66,6 @@ class PreparedContribuyente(object):
         self.razonSocial = response.razonSocial
         self.telefonoTrabajo = response.telefonoTrabajo
         self.tipoContribuyente = response.tipoContribuyente
-        self.ubicacionGeografica = response.ubicaGeograf
         self.obligadoContabilidad = response.obligadoContabilidad
         self.representanteLegal = response.representanteLegal
         self.ValidRUC = True
