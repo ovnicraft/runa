@@ -72,9 +72,9 @@ class PreparedContribuyente(object):
         self.RUC = response.numeroRuc
         self.razonSocial = response.razonSocial
         self.telefonoTrabajo = response.telefonoTrabajo
-        self.tipoContribuyente = response.tipoContribuyente
+        self.tipoContribuyente = self.clean_dict(response.tipoContribuyente)
         self.obligadoContabilidad = response.obligadoContabilidad
-        self.representanteLegal = response.representanteLegal
+        self.representanteLegal = self.clean_dict(response.representanteLegal)
         self.ValidRUC = True
 
 
