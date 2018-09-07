@@ -52,8 +52,15 @@ class PreparedContribuyente(object):
         self.ValidRUC = stdnum.ec.ruc.is_valid(self.RUC)
         return self.RUC
 
+    def clean_dict(self, cls):
+        toclean = cls.__dict__
+        toclean.pop('__metadata__')
+        toclean.pop('__printer__')
+        toclean.pop('__keylist__')
+        return toclean
+
     def prepare(self, response):
-        self.actividadEconomica = response.actividadEconomica
+        self.actividadEconomica = self.clean_dict(response.actividadEconomica)
         self.codClaseContrib = response.codClaseContrib
         self.codEstado = response.codEstado
         self.desClaseContrib = response.desClaseContrib
