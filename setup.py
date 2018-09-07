@@ -26,7 +26,7 @@ test_requirements = [
 
 setup(
     name='runa',
-    version='0.2.6',
+    version='0.2.7',
     description="Librería para uso de WS del Bus Gubernamental de Ecuador",
     long_description=readme + '\n\n' + history,
     author="Cristian Salamea",
@@ -44,7 +44,7 @@ setup(
     zip_safe=False,
     keywords='runa webservices ecuador bgs',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
