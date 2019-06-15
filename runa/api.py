@@ -25,11 +25,11 @@ from .utils import (
     PASSWORD,
     CODAGENCIA,
     CODINSTITUCION,
-    WS_ENABLED
+    WS_ENABLED,
 )
 from .models import PreparedRuna, PreparedContribuyente
 
-logger = logging.getLogger('runa')
+logger = logging.getLogger("runa")
 
 
 def login(WSDL):
@@ -45,19 +45,21 @@ def login(WSDL):
     factory.Urlsw = WSDL
     response = cl_auth.service.ValidarPermiso(factory)
 
-    if response.TienePermiso == 'N':
-        logger.error('%s %s' % (response.Mensaje.CodError, response.Mensaje.DesError))  # noqa
+    if response.TienePermiso == "N":
+        logger.error(
+            "%s %s" % (response.Mensaje.CodError, response.Mensaje.DesError)
+        )  # noqa
         return False, False
     return response, client
 
 
-def login_service(service='sri'):
+def login_service(service="sri"):
     return login(WS_ENABLED[service])
 
 
 def _has_error(response):
-    if not response.CodigoError == '000':
-        return '{0} {1}'.format(response.CodigoError, response.Error)
+    if not response.CodigoError == "000":
+        return "{0} {1}".format(response.CodigoError, response.Error)
 
 
 def create_tokens(response):
@@ -81,7 +83,7 @@ def set_token(response, client):
     client.set_options(wsse=security)
 
 
-def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
+def read_by_nui(nui, mode="prod", authorized_nui=AUTHORIZED_NUI):
     response, client = login(WS_CIUDADANO)
     if not response:
         return False
@@ -93,7 +95,7 @@ def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
         Usuario=USER,
         Contrasenia=PASSWORD,
         CodigoInstitucion=CODINSTITUCION,
-        CodigoAgencia=CODAGENCIA
+        CodigoAgencia=CODAGENCIA,
     )
     error = _has_error(consulta_response)
     if error:
@@ -103,7 +105,33 @@ def read_by_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
     return runa
 
 
-def busqueda_por_nui(nui, mode='prod', authorized_nui=AUTHORIZED_NUI):
+def busqueda_por_nombre(
+    apellido1, apellido2, nombre1, nombre2, AUTHORIZED_NUI=AUTHORIZED_NUI
+):
+    response, client = login(WS_CIUDADANO)
+    if not response:
+        return False
+    security = create_tokens(response)
+    client.set_options(wsse=security)
+    consulta_response = client.service.BusquedaPorNombre(
+        Apellido1=apellido1,
+        Apellido2=apellido2,
+        Nombre1=nombre1,
+        Nombre2=nombre2,
+        Usuario=USER,
+        Contrasenia=PASSWORD,
+        CodigoInstitucion=CODINSTITUCION,
+        CodigoAgencia=CODAGENCIA,
+    )
+    error = _has_error(consulta_response)
+    if error:
+        raise Exception(error)
+    runa = PreparedRuna()
+    runa.prepare_by_name(consulta_response)
+    return runa
+
+
+def busqueda_por_nui(nui, mode="prod", authorized_nui=AUTHORIZED_NUI):
     return read_by_nui(nui, mode=mode, authorized_nui=authorized_nui)
 
 

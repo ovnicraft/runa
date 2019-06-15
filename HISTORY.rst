@@ -2,6 +2,10 @@
 History
 =======
 
+0.2.10 (2019-06-13)
+-------------------
+* Busqueda por nombre y cedula desde registro civil
+
 0.2.1 (2017-12-19)
 ------------------
 
